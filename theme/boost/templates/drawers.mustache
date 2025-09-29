@@ -48,6 +48,8 @@
         "hasregionmainsettingsmenu": false,
         "addblockbutton": ""
     }
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
 }}
 {{> theme_boost/head }}
 
@@ -56,6 +58,297 @@
 <div id="page-wrapper" class="d-print-block">
 
     {{{ output.standard_top_of_body_html }}}
+    {{#isfrontpage}}
+<!-- Sección de portada -->
+<section class="portada-section my-5">
+  <div class="container-fluid p-0">
+    <img src="{{ portadaimg }}" 
+         alt="Portada" 
+         class="img-fluid w-100 d-block"
+         style="max-height: 600px; object-fit: cover;"/>
+  </div>
+</section>
+
+
+<!-- Nueva sección motivadora con efectos -->
+<div class="container my-5 motivadora-section" 
+     data-aos="fade-down" data-aos-duration="1200" data-aos-once="true">
+  <div class="row align-items-center">
+    
+    <!-- Texto -->
+    <div class="col-md-6 text-start">
+      <h2 id="animated-title">
+        <span class="highlight-green">Desafía</span>  
+        tus <span class="shake-word highlight-green">límites</span>  
+        con las <span class="highlight-green">Matemáticas</span>
+      </h2>
+      <p id="typewriter"></p>
+    </div>
+    
+    <!-- Animación Lottie del libro -->
+    <div class="col-md-6 text-center libro-container">
+      <!-- Librería Lottie -->
+      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+      
+      <!-- Animación del libro abierto -->
+      <lottie-player 
+          src="https://assets2.lottiefiles.com/packages/lf20_puciaact.json"  
+          background="transparent"  
+          speed="1"  
+          style="width: 500px; height: 500px;"  
+          loop  
+          autoplay>
+      </lottie-player>
+
+      <!-- Números flotantes -->
+      <div class="numeros"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Última sección futurista -->
+<div class="futurista-section d-flex justify-content-center align-items-center">
+  <div class="content text-center">
+    <h2 class="mb-4">Explora el poder de las Matemáticas</h2>
+    <button class="btn-ingresa" href="/login/index.php">Ingresa Ya</button>
+  </div>
+
+  <!-- Números y fórmulas flotantes -->
+  <div class="floating">x² + y² = r²</div>
+  <div class="floating">E = mc²</div>
+  <div class="floating">∫ f(x) dx</div>
+  <div class="floating">π ≈ 3.1416</div>
+  <div class="floating">√2</div>
+  <div class="floating">∞</div>
+  <div class="floating">a² + b² = c²</div>
+  <div class="floating">lim x→∞</div>
+  <div class="floating">∑ i=1ⁿ</div>
+  <div class="floating">∂/∂x</div>
+  <div class="floating">log(x)</div>
+  <div class="floating">≈ φ</div>
+</div>
+
+<!-- Estilos -->
+<style>
+.motivadora-section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.motivadora-section h2 {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 3rem;
+  color: #2c3e50;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.motivadora-section p {
+  font-family: Arial, sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: #555;
+  margin-top: 25px;
+  min-height: 100px;
+  white-space: pre-line;
+}
+
+/* Verde principal */
+.highlight-green  { color: #27ae60; font-weight: bold; }
+
+/* Efecto de temblor */
+.shake-word {
+  display: inline-block;
+  animation: shake 1.2s infinite;
+}
+@keyframes shake {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-3px); }
+  40% { transform: translateY(3px); }
+  60% { transform: translateY(-2px); }
+  80% { transform: translateY(2px); }
+}
+
+/* Resaltado animado */
+.word-flash {
+  animation: flashHighlight 1s ease-in-out forwards;
+}
+@keyframes flashHighlight {
+  0%   { color: #2c3e50; text-shadow: none; }
+  50%  { color: #f39c12; text-shadow: 0 0 10px rgba(243,156,18,0.7); }
+  100% { color: inherit; text-shadow: none; }
+}
+
+/* Números flotantes sobre el libro */
+.libro-container {
+  position: relative;
+  display: inline-block;
+}
+.numeros {
+  position: absolute;
+  bottom: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: #27ae60;
+  animation: floatNumbers 3s linear infinite;
+}
+@keyframes floatNumbers {
+  0%   { transform: translate(-50%, 0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -150px) scale(1.5); opacity: 0; }
+}
+
+/* seccion futurista*/
+.futurista-section {
+  position: relative;
+  min-height: 70vh; /* ⬅️ menos alto */
+  background: linear-gradient(135deg, #1f1f1f, #2c3e50);
+  overflow: hidden;
+  color: #ecf0f1;
+  z-index: 1;
+  padding: 40px 20px; /* espacio interno */
+}
+
+/* Contenido centrado */
+.futurista-section .content {
+  position: relative;
+  z-index: 2;
+}
+.futurista-section h2 {
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.btn-ingresa {
+  padding: 12px 35px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  background: #27ae60;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  z-index: 2;
+}
+.btn-ingresa:hover {
+  background: #2ecc71;
+  transform: scale(1.05);
+}
+
+/* Líneas en movimiento (fondo futurista) */
+.futurista-section::before,
+.futurista-section::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -50%;
+  width: 200%; height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.05) 0,
+    rgba(255,255,255,0.05) 2px,
+    transparent 2px,
+    transparent 100px
+  );
+  animation: moveLines 10s linear infinite;
+}
+.futurista-section::after {
+  animation-duration: 15s;
+  opacity: 0.3;
+}
+@keyframes moveLines {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100px); }
+}
+
+/* Números y fórmulas flotando */
+.futurista-section .floating {
+  position: absolute;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: rgba(255,255,255,0.6);
+  animation: floatMath 9s linear infinite;
+}
+@keyframes floatMath {
+  0%   { transform: translateY(100%) scale(0.8); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translateY(-120%) scale(1.2); opacity: 0; }
+}
+
+/* Posiciones aleatorias */
+.futurista-section .floating:nth-child(2) { left: 10%; animation-delay: 0s; }
+.futurista-section .floating:nth-child(3) { left: 20%; animation-delay: 2s; }
+.futurista-section .floating:nth-child(4) { left: 35%; animation-delay: 4s; }
+.futurista-section .floating:nth-child(5) { left: 50%; animation-delay: 1s; }
+.futurista-section .floating:nth-child(6) { left: 65%; animation-delay: 3s; }
+.futurista-section .floating:nth-child(7) { left: 80%; animation-delay: 5s; }
+.futurista-section .floating:nth-child(8) { left: 90%; animation-delay: 6s; }
+.futurista-section .floating:nth-child(9) { left: 15%; animation-delay: 7s; }
+.futurista-section .floating:nth-child(10){ left: 40%; animation-delay: 8s; }
+.futurista-section .floating:nth-child(11){ left: 60%; animation-delay: 9s; }
+.futurista-section .floating:nth-child(12){ left: 75%; animation-delay: 10s; }
+.futurista-section .floating:nth-child(13){ left: 5%;  animation-delay: 11s; }
+</style>
+
+
+<!-- Script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Texto descripción con efecto máquina de escribir
+  const text = `Convierte cada problema en un desafío apasionante, 
+donde el razonamiento se transforma en creatividad.  
+
+Aquí, aprender no es memorizar: es explorar, imaginar y crear nuevas formas 
+de entender el mundo con las matemáticas.`;
+
+  const typewriter = document.getElementById("typewriter");
+  let i = 0;
+
+  function typingEffect() {
+    if (i < text.length) {
+      typewriter.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typingEffect, 40);
+    } else {
+      highlightWordsSequentially(); // cuando termine, resalta el título
+    }
+  }
+  typingEffect();
+
+  // Resaltar título palabra por palabra
+  function highlightWordsSequentially() {
+    const title = document.getElementById("animated-title");
+    const words = title.querySelectorAll("span");
+    let index = 0;
+
+    function highlightNext() {
+      if (index < words.length) {
+        words[index].classList.add("word-flash");
+        setTimeout(() => {
+          words[index].classList.remove("word-flash");
+          index++;
+          highlightNext();
+        }, 1200); // tiempo de cada resaltado
+      }
+    }
+    highlightNext();
+  }
+
+  // Animación de números cambiando
+  const numerosDiv = document.querySelector(".numeros");
+  const numeros = ["1","2","3","4","5","6","7","8","9","∞"];
+  
+  setInterval(() => {
+    const random = numeros[Math.floor(Math.random() * numeros.length)];
+    numerosDiv.textContent = random;
+  }, 1000);
+});
+</script>
+
+    {{/isfrontpage}}
+
 
     {{> theme_boost/navbar }}
     {{#courseindex}}
@@ -178,5 +471,36 @@ M.util.js_pending('theme_boost/loader');
 require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
     Drawer.init();
     M.util.js_complete('theme_boost/loader');
+});
+require([], function() {
+    // Inyectar CSS de AOS
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css";
+    document.head.appendChild(link);
+
+    // Extra fix para que los elementos NO desaparezcan después de animar
+    var style = document.createElement("style");
+    style.innerHTML = `
+      [data-aos] {
+        opacity: 1 !important; /* Siempre visible después de animarse */
+        transition-property: transform, opacity !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Inyectar JS de AOS
+    var script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js";
+    script.onload = function() {
+        AOS.init({
+            once: true,            // Se ejecuta solo al entrar
+            mirror: false,         // No se repite al hacer scroll hacia arriba
+            duration: 1200,        // Duración estándar
+            easing: 'ease-out',    // Animación más suave
+            anchorPlacement: 'top-bottom'
+        });
+    };
+    document.body.appendChild(script);
 });
 {{/js}}

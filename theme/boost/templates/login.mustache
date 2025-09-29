@@ -54,6 +54,30 @@
     {{> theme_boost/footer }}
 </div>
 
+<div id="popup-noticia" style="display:flex; 
+    justify-content:center; align-items:center; 
+    position:fixed; top:0; left:0; width:100%; height:100%; 
+    background:rgba(0,0,0,0.7); z-index:9999;">
+    
+  <div style="position:relative; background:#fff; padding:20px; 
+      border-radius:10px; max-width:600px; text-align:center;">
+      
+    <!-- Botón de cerrar -->
+    <span onclick="document.getElementById('popup-noticia').style.display='none'" 
+          style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;">✖</span>
+    
+    <!-- Imagen de la noticia -->
+    <img src="{{config.wwwroot}}/theme/boost/pix/banner1.png" 
+         alt="Noticia" style="max-width:100%; border-radius:10px;"/>
+
+    <!-- Texto opcional -->
+    <h2>Bienvenido a Moodle Math U</h2>
+    <p>Aquí puedes colocar la noticia o aviso importante.</p>
+    
+  </div>
+</div>
+
+
 </body>
 </html>
 {{#js}}

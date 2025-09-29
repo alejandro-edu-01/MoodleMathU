@@ -101,7 +101,10 @@ $templatecontext = [
     'hasregionmainsettingsmenu' => !empty($regionmainsettingsmenu),
     'overflow' => $overflow,
     'headercontent' => $headercontent,
-    'addblockbutton' => $addblockbutton
+    'addblockbutton' => $addblockbutton,
+    'portadaimg' => $OUTPUT->image_url('portada', 'theme_boost')->out(false),
+    'gifBook' => $OUTPUT->image_url('book1', 'theme_boost')->out(false),
+    'isfrontpage' => ($PAGE->pagelayout === 'frontpage'),
 ];
 
 echo $OUTPUT->render_from_template('theme_boost/drawers', $templatecontext);

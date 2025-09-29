@@ -29,7 +29,13 @@ $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
     'bodyattributes' => $bodyattributes,
+    //añadimos aquí la portada
+    'portadaimg' => $OUTPUT->image_url('portada', 'theme_boost')->out(false)
+    //'portadaimg' => $CFG->wwwroot . '/theme/boost/pix/portada.png'
 ];
+
+// DEBUG: mostrar la URL generada en el log de PHP (normalmente en error.log de Apache/Nginx).
+error_log('Portada URL: ' . $templatecontext['portadaimg']);
 
 if (empty($PAGE->layout_options['noactivityheader'])) {
     $header = $PAGE->activityheader;

@@ -65,7 +65,7 @@
 
     <!-- Imagen de portada original -->
     <section class="fp-portada">
-        <img src="{{ portadaimg }}"
+        <img src="{{config.wwwroot}}/theme/boost/pix/portada.jpg"
              alt="Olimpiadas de Matemáticas"
              class="fp-portada-img"/>
     </section>
@@ -203,6 +203,7 @@
         width: 100%;
         max-height: 520px;
         object-fit: cover;
+        object-position: center top;
         display: block;
     }
 
@@ -210,12 +211,12 @@
     .fp-hero {
         position: relative;
         width: 100%;
-        min-height: 500px;
+        min-height: 320px;
         background: linear-gradient(135deg, #0f2027 0%, #1a3a4a 50%, #0f3460 100%);
         display: flex;
         align-items: center;
         overflow: hidden;
-        padding: 70px 48px 60px;
+        padding: 40px 64px;
     }
     .fp-hero-overlay {
         position: absolute;
@@ -233,14 +234,7 @@
         pointer-events: none;
     }
     .fp-hero-visual {
-        position: absolute;
-        right: -30px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 340px;
-        height: 340px;
-        opacity: 0.10;
-        pointer-events: none;
+        display: none;
     }
     .fp-hero-content {
         position: relative;
@@ -279,12 +273,12 @@
 
     /* Título */
     .fp-hero-title {
-        font-size: 2.7rem !important;
+        font-size: 2.1rem !important;
         font-weight: 700 !important;
         color: #ffffff !important;
         line-height: 1.2 !important;
-        margin-bottom: 20px !important;
-        letter-spacing: -0.5px !important;
+        margin-bottom: 16px !important;
+        letter-spacing: -0.3px !important;
         font-family: inherit !important;
     }
     .fp-hero-title em {
@@ -294,12 +288,12 @@
 
     /* Typewriter */
     .fp-typewriter {
-        min-height: 68px;
-        font-size: 1.05rem !important;
+        min-height: 52px;
+        font-size: 0.97rem !important;
         color: rgba(255,255,255,0.68) !important;
-        line-height: 1.75 !important;
-        margin-bottom: 32px !important;
-        max-width: 490px;
+        line-height: 1.7 !important;
+        margin-bottom: 28px !important;
+        max-width: 460px;
         font-family: inherit !important;
     }
     .fp-cursor {
@@ -416,9 +410,8 @@
     }
     @media (max-width: 580px) {
         .fp-features { grid-template-columns: 1fr; }
-        .fp-hero { padding: 48px 24px 40px; }
-        .fp-hero-title { font-size: 2rem !important; }
-        .fp-hero-visual { display: none; }
+        .fp-hero { padding: 32px 24px; }
+        .fp-hero-title { font-size: 1.6rem !important; }
         .fp-section { padding: 48px 24px; }
         .fp-cta-section { padding: 60px 24px; }
     }

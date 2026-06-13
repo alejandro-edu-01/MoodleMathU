@@ -1,24 +1,19 @@
 {{!
     This file is part of Moodle - http://moodle.org/
-
     Moodle is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     Moodle is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
     @template theme_boost/login
-
     Login page template
-
     Example context (json):
     {
         "output": {
@@ -34,71 +29,568 @@
 <body {{{ bodyattributes }}}>
 {{> core/local/toast/wrapper}}
 
-<div id="page-wrapper">
+<style>
+/* ── Reset de página ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
+html, body, #page-wrapper {
+    height: 100%;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #0b1a2b;
+}
+
+/* ── Layout principal ── */
+.lp-wrap {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ── Panel izquierdo — identidad ── */
+.lp-left {
+    flex: 1 1 55%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+.lp-left-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('{{config.wwwroot}}/theme/boost/pix/portadaitp.jpg');
+    background-size: cover;
+    background-position: center top;
+    filter: brightness(0.55);
+    z-index: 0;
+}
+
+.lp-left-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 30%,
+        rgba(11, 26, 43, 0.5) 60%,
+        rgba(11, 26, 43, 0.92) 100%
+    );
+    z-index: 1;
+}
+
+.lp-left-content {
+    position: relative;
+    z-index: 2;
+    padding: 48px 52px;
+}
+
+.lp-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #27ae60;
+    margin-bottom: 18px;
+}
+
+.lp-eyebrow-line {
+    width: 28px;
+    height: 1.5px;
+    background: #27ae60;
+    flex-shrink: 0;
+}
+
+.lp-left h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 14px;
+}
+
+.lp-left h1 span {
+    color: #27ae60;
+}
+
+.lp-left p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.62);
+    line-height: 1.7;
+    max-width: 400px;
+    margin-bottom: 32px;
+}
+
+.lp-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.lp-pill {
+    display: inline-block;
+    padding: 5px 14px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Georgia', serif;
+    letter-spacing: 0.3px;
+}
+
+/* ── Panel derecho — formulario ── */
+.lp-right {
+    flex: 0 0 420px;
+    width: 420px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 52px 44px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.lp-logo-area {
+    margin-bottom: 36px;
+}
+
+.lp-logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lp-logo-icon {
+    width: 38px;
+    height: 38px;
+    background: #0b1a2b;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.lp-logo-text {
+    line-height: 1.2;
+}
+
+.lp-logo-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0b1a2b;
+}
+
+.lp-logo-text span {
+    font-size: 0.72rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.lp-right h2 {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #0b1a2b;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+}
+
+.lp-right .lp-sub {
+    font-size: 0.88rem;
+    color: #888;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+/* ── Formulario Moodle — override de estilos ── */
+.lp-right .login-wrapper,
+.lp-right .login-container {
+    all: unset;
+    display: block;
+    width: 100%;
+}
+
+/* Ocultar elementos innecesarios de Moodle en esta vista */
+.lp-right #page-header,
+.lp-right .page-header-headings,
+.lp-right .card.bg-light,
+.lp-right h2.sr-only {
+    display: none !important;
+}
+
+/* Inputs */
+.lp-right input[type="text"],
+.lp-right input[type="email"],
+.lp-right input[type="password"] {
+    width: 100% !important;
+    height: 46px !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 8px !important;
+    padding: 0 14px !important;
+    font-size: 0.92rem !important;
+    color: #1a1a1a !important;
+    background: #fafafa !important;
+    transition: border-color 0.18s, box-shadow 0.18s !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.lp-right input[type="text"]:focus,
+.lp-right input[type="email"]:focus,
+.lp-right input[type="password"]:focus {
+    border-color: #27ae60 !important;
+    background: #fff !important;
+    box-shadow: 0 0 0 3px rgba(39,174,96,0.12) !important;
+}
+
+/* Labels */
+.lp-right label {
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: #444 !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+}
+
+/* Botón principal */
+.lp-right [type="submit"],
+.lp-right .btn-primary {
+    width: 100% !important;
+    height: 46px !important;
+    background: #0b1a2b !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #fff !important;
+    font-size: 0.93rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: background 0.18s !important;
+    letter-spacing: 0.2px !important;
+}
+
+.lp-right [type="submit"]:hover,
+.lp-right .btn-primary:hover {
+    background: #27ae60 !important;
+}
+
+/* Links */
+.lp-right a {
+    color: #27ae60 !important;
+    font-size: 0.85rem !important;
+}
+
+.lp-right a:hover {
+    color: #1e8449 !important;
+}
+
+/* Form groups */
+.lp-right .form-group {
+    margin-bottom: 16px !important;
+}
+
+/* Alerts de error */
+.lp-right .alert {
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    border: none !important;
+    padding: 12px 16px !important;
+}
+
+/* Remember me checkbox */
+.lp-right .rememberpass {
+    font-size: 0.83rem !important;
+    color: #666 !important;
+    margin: 4px 0 16px !important;
+}
+
+/* Divisor de registro */
+.lp-right hr {
+    border: none !important;
+    border-top: 1px solid #f0f0f0 !important;
+    margin: 20px 0 !important;
+}
+
+/* Texto "¿No tienes cuenta?" */
+.lp-divider {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.83rem;
+    color: #aaa;
+}
+
+/* Footer del panel */
+.lp-right-footer {
+    position: absolute;
+    bottom: 24px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 0.72rem;
+    color: #ccc;
+    letter-spacing: 0.3px;
+}
+
+/* ── POPUP ── */
+.lp-popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 26, 43, 0.82);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    backdrop-filter: blur(4px);
+}
+
+.lp-popup-box {
+    position: relative;
+    background: #fff;
+    border-radius: 16px;
+    max-width: 540px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+}
+
+.lp-popup-img {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+.lp-popup-body {
+    padding: 28px 32px 32px;
+}
+
+.lp-popup-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: #27ae60;
+    margin-bottom: 12px;
+}
+
+.lp-popup-body h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0b1a2b;
+    margin-bottom: 10px;
+    line-height: 1.3;
+    letter-spacing: -0.2px;
+}
+
+.lp-popup-body p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.lp-popup-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.lp-popup-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: background 0.18s, transform 0.12s;
+}
+
+.lp-popup-btn-primary {
+    background: #0b1a2b;
+    color: #fff !important;
+}
+
+.lp-popup-btn-primary:hover {
+    background: #27ae60;
+    transform: translateY(-1px);
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+.lp-popup-btn-ghost {
+    background: transparent;
+    color: #aaa !important;
+    font-size: 0.83rem !important;
+    font-weight: 400 !important;
+    padding: 11px 8px !important;
+}
+
+.lp-popup-btn-ghost:hover {
+    color: #666 !important;
+    text-decoration: none !important;
+}
+
+.lp-popup-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0,0,0,0.35);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    transition: background 0.15s;
+    z-index: 10;
+}
+
+.lp-popup-close:hover {
+    background: rgba(0,0,0,0.6);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .lp-wrap { flex-direction: column; }
+    .lp-left { min-height: 260px; flex: none; }
+    .lp-left-content { padding: 28px 28px 32px; }
+    .lp-left h1 { font-size: 1.8rem; }
+    .lp-right {
+        flex: none;
+        width: 100%;
+        min-height: auto;
+        padding: 36px 28px 64px;
+    }
+    .lp-right-footer { position: static; margin-top: 24px; }
+}
+</style>
+
+<div id="page-wrapper">
     {{{ output.standard_top_of_body_html }}}
 
-    <div id="page" class="container-fluid pt-5 mt-0">
-        <div id="page-content" class="row">
-            <div id="region-main-box" class="col-12">
-                <div id="region-main" class="col-12 h-100">
-                <div class="login-wrapper">
-                    <div class="login-container">
-                    {{{ output.main_content }}}
-                    </div>
+    <div class="lp-wrap">
+
+        <!-- Panel izquierdo -->
+        <div class="lp-left">
+            <div class="lp-left-bg"></div>
+            <div class="lp-left-gradient"></div>
+            <div class="lp-left-content">
+                <div class="lp-eyebrow">
+                    <span class="lp-eyebrow-line"></span>
+                    UNIPUTUMAYO · 2026
                 </div>
+                <h1>Olimpiadas de<br><span>Matemáticas</span></h1>
+                <p>Un espacio para quienes piensan distinto. Demuestra tu capacidad de razonar cuando el problema nunca lo has visto antes.</p>
+                <div class="lp-pills">
+                    <span class="lp-pill">∫ f(x) dx</span>
+                    <span class="lp-pill">∑ i=1ⁿ</span>
+                    <span class="lp-pill">x² + y² = r²</span>
+                    <span class="lp-pill">∂/∂x</span>
+                    <span class="lp-pill">π ≈ 3.1416</span>
                 </div>
             </div>
         </div>
+
+        <!-- Panel derecho -->
+        <div class="lp-right">
+
+            <div class="lp-logo-area">
+                <div class="lp-logo-badge">
+                    <div class="lp-logo-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="2.5" aria-hidden="true">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </div>
+                    <div class="lp-logo-text">
+                        <strong>MathU · UNIPUTUMAYO</strong>
+                        <span>Plataforma oficial</span>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Ingresa a la plataforma</h2>
+            <p class="lp-sub">Usa las credenciales que te fueron asignadas para acceder.</p>
+
+            <div class="login-wrapper">
+                <div class="login-container">
+                    {{{ output.main_content }}}
+                </div>
+            </div>
+
+            <p class="lp-right-footer">
+                Olimpiadas de Matemáticas UNIPUTUMAYO &nbsp;·&nbsp; Mocoa, Putumayo
+            </p>
+        </div>
+
     </div>
+
     {{> theme_boost/footer }}
 </div>
 
-<div id="popup-noticia" style="display:none; 
-    justify-content:center; align-items:center; 
-    position:fixed; top:0; left:0; width:100%; height:100%; 
-    background:rgba(0,0,0,0.7); z-index:9999;">
-    
-  <div style="position:relative; background:#fff; padding:20px; 
-      border-radius:10px; max-width:600px; text-align:center;">
-      
-    <!-- Botón de cerrar -->
-    <span onclick="cerrarPopup()" 
-          style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:20px;">✖</span>
-    
-    <!-- Imagen de la noticia -->
-    <img src="{{config.wwwroot}}/theme/boost/pix/banner1.png" 
-         alt="Noticia" style="max-width:100%; border-radius:10px;"/>
+<!-- ── Popup de bienvenida ── -->
+<div id="popup-noticia" class="lp-popup-overlay">
+    <div class="lp-popup-box">
 
-    <!-- Texto opcional -->
-    <h2 style="color: #2c3e50; font-weight: bold; margin-bottom: 15px;">¡Bienvenido a Moodle Math U!</h2>
-    <p style="font-size: 1.1rem; color: #555; line-height: 1.6;">
-      <strong style="color: #27ae60;">Las matemáticas no son solo números,</strong> son el lenguaje con el que 
-      descubrimos el universo. Cada problema que resuelves te acerca más a dominar el arte del 
-      pensamiento lógico y la creatividad. 
-      <br><br>
-      <em style="color: #27ae60;">¡Prepárate para desafiar tus límites y descubrir tu verdadero potencial!</em>
-    </p>
-    
-  </div>
+        <button class="lp-popup-close" onclick="cerrarPopup()" aria-label="Cerrar">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <img src="{{config.wwwroot}}/theme/boost/pix/banner1.png"
+             alt="Olimpiadas de Matemáticas UNIPUTUMAYO 2026"
+             class="lp-popup-img"/>
+
+        <div class="lp-popup-body">
+            <span class="lp-popup-tag">Olimpiadas · 2026</span>
+            <h3>Bienvenido a la plataforma oficial</h3>
+            <p>
+                Aquí encontrarás las pruebas, el calendario y los resultados de las
+                Olimpiadas de Matemáticas UNIPUTUMAYO 2026. Ingresa con tus credenciales
+                y prepárate para competir.
+            </p>
+            <div class="lp-popup-actions">
+                <button class="lp-popup-btn lp-popup-btn-primary" onclick="cerrarPopup()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                    Entendido, ingresar
+                </button>
+                <button class="lp-popup-btn lp-popup-btn-ghost" onclick="cerrarPopup()">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+
+    </div>
 </div>
-
 
 </body>
 </html>
+
 {{#js}}
 M.util.js_pending('theme_boost/loader');
 require(['theme_boost/loader'], function() {
-  M.util.js_complete('theme_boost/loader');
+    M.util.js_complete('theme_boost/loader');
 });
 
-// Control del popup de bienvenida
 window.cerrarPopup = function() {
-  document.getElementById('popup-noticia').style.display = 'none';
+    document.getElementById('popup-noticia').style.display = 'none';
 };
 
-// Mostrar el popup al cargar la página EXCEPTO cuando hay error de login
 if (!document.getElementById('loginerrormessage')) {
-  document.getElementById('popup-noticia').style.display = 'flex';
+    document.getElementById('popup-noticia').style.display = 'flex';
 }
 {{/js}}

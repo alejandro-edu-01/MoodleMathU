@@ -6,6 +6,12 @@
 
 [Moodle][1] is the World's Open Source Learning Platform, widely used around the world by countless universities, schools, companies, and all manner of organisations and individuals.
 
+
+> **Prueba:** Este cambio fue realizado desde Visual Studio Code.
+> **Siguinete prueba:** Este cambio fue realizado desde Visual Studio Code.
+
+las pruebas son importantes para gestionar directamente desde nuestro sistemas
+
 Moodle is designed to allow educators, administrators and learners to create personalised learning environments with a single robust, secure and integrated system.
 
 ## Documentation

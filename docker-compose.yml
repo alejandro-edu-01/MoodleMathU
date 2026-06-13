@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mariadb:10.11
+    container_name: moodlemathu_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: moodle
+      MYSQL_USER: moodleuser
+      MYSQL_PASSWORD: moodlepass
+    volumes:
+      - moodle_db_data:/var/lib/mysql
+    networks:
+      - moodle_net
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  moodle:
+    image: php:8.2-apache
+    container_name: moodlemathu_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MOODLE_DBTYPE: mariadb
+      MOODLE_DBHOST: db
+      MOODLE_DBNAME: moodle
+      MOODLE_DBUSER: moodleuser
+      MOODLE_DBPASS: moodlepass
+      MOODLE_WWWROOT: http://localhost:8080
+      MOODLE_DATAROOT: /var/moodledata
+      MOODLE_ADMIN: admin
+      MOODLE_ADMINPASS: Admin1234!
+      MOODLE_ADMINEMAIL: admin@moodlemathu.local
+      MOODLE_SITENAME: "MoodleMathU - Olimpiadas de Matemáticas"
+    volumes:
+      - .:/var/www/html
+      - moodle_data:/var/moodledata
+    ports:
+      - "8080:80"
+    networks:
+      - moodle_net
+    entrypoint: ["/bin/bash", "/var/www/html/docker-entrypoint.sh"]
+
+volumes:
+  moodle_db_data:
+  moodle_data:
+
+networks:
+  moodle_net:
+    driver: bridge
